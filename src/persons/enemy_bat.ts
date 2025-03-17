@@ -36,6 +36,7 @@ export class Creature extends Phaser.Physics.Arcade.Sprite {
     // Слушаем начало атаки
     this.on("animationstart", (animation: Phaser.Animations.Animation) => {
       if (animation.key.includes("attack") || animation.key.includes("bash")) {
+        // @ts-ignore
         this.enemies?.children.iterate((enemy: Creature) => {
           enemy.isCanTakeDamage = true;
         });
@@ -52,6 +53,7 @@ export class Creature extends Phaser.Physics.Arcade.Sprite {
       this.attackHitBoxOverlapEnemy = scene.physics.add.overlap(
         this.attackHitBox,
         this.enemies,
+        // @ts-ignore
         this.hitEnemy,
         undefined,
         this,
@@ -76,7 +78,7 @@ export class Creature extends Phaser.Physics.Arcade.Sprite {
       : -this.body!.width / 2;
     this.attackHitBox.setPosition(this.x + offsetX, this.y);
   }
-  hitEnemy(hitBox: Body, enemy: Creature) {
+  hitEnemy(_hitBox: Body, enemy: Creature) {
     enemy.takeDamage(this.attackDamage); // Метод нанесения урона
   }
   activateAttackHitBox() {
@@ -172,9 +174,9 @@ export class Bat extends Creature {
   // Расчет расстояния до ближайшего противника
   checkDistanceToEnemy() {
     let closestDistance = 100000;
-    let closesEnemyCoordinate = { x: 0, y: 0 };
 
     // Проходим через все платформы
+    // @ts-ignore
     this.enemies?.children.iterate((enemy: Creature) => {
       const enemyX = enemy.x + enemy.width / 2;
       const enemyY = enemy.y + enemy.height / 2;
